@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using ZXing;
 using ZXing.Common;
 using ZXing.QrCode;
@@ -133,6 +134,110 @@ namespace DOTNETQRCode
                 }
             }
             return resMatrix;
+        }
+
+        /// <summary>
+        /// 二维码解码
+        /// </summary>
+        /// <param name="imgPath">二维码路径</param>
+        /// <returns></returns>
+        public static Tuple<bool, string, string> DecodeQRCode(string imgPath)
+        {
+            Tuple<bool, string, string> tup;
+            //解码通用类
+            try
+            {
+                string text, format;
+                IBarcodeReader reader = new BarcodeReader();
+                Bitmap bmp = new Bitmap(imgPath);
+                Result result = reader.Decode(bmp);
+                bmp.Dispose();
+                if (result != null)
+                {
+                    text = result.Text; //条码内容
+                    format = result.BarcodeFormat.ToString(); //条码类型
+                    tup = new Tuple<bool, string, string>(true, text, format);
+                }
+                else
+                {
+                    tup = new Tuple<bool, string, string>(false, "图中未识别到二维码", "");
+                }
+            }
+            catch (Exception ex)
+            {
+                tup = new Tuple<bool, string, string>(false, ex.Message, "");
+            }
+            return tup;
+        }
+
+        /// <summary>
+        /// 扫描屏幕二维码，返回Tuple<bool, string>
+        /// </summary>
+        /// <returns></returns>
+        public static Tuple<bool, string> ScanScreenQRCode()
+        {
+            Tuple<bool, string> tup;
+            foreach (Screen screen in Screen.AllScreens)
+            {
+                using (Bitmap fullImage = new Bitmap(screen.Bounds.Width,
+                          screen.Bounds.Height))
+                {
+                    using (Graphics g = Graphics.FromImage(fullImage))
+                    {
+                        g.CopyFromScreen(screen.Bounds.X,
+                             screen.Bounds.Y,
+                             0, 0,
+                             fullImage.Size,
+                             CopyPixelOperation.SourceCopy);
+                    }
+                    int maxTry = 10;
+                    int ishave = 0;
+                    string result = "未识别到二维码";
+                    for (int i = 0; i < maxTry; i++)
+                    {
+                        if (ishave != 0)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            int marginLeft = (int)((double)fullImage.Width * i / 2.5 / maxTry);
+                            int marginTop = (int)((double)fullImage.Height * i / 2.5 / maxTry);
+                            Rectangle cropRect = new Rectangle(marginLeft, marginTop, fullImage.Width - marginLeft * 2, fullImage.Height - marginTop * 2);
+                            Bitmap target = new Bitmap(screen.Bounds.Width, screen.Bounds.Height);
+
+                            double imageScale = (double)screen.Bounds.Width / (double)cropRect.Width;
+                            using (Graphics g = Graphics.FromImage(target))
+                            {
+                                g.DrawImage(fullImage, new Rectangle(0, 0, target.Width, target.Height),
+                                    cropRect,
+                                    GraphicsUnit.Pixel);
+                            }
+                            var source = new BitmapLuminanceSource(target);
+                            var bitmap = new BinaryBitmap(new HybridBinarizer(source));
+                            QRCodeReader reader = new QRCodeReader();
+                            var res = reader.decode(bitmap);
+                            if (res != null)
+                            {
+                                ishave = 1;
+                                //picturebox_qrcode.Image = target;
+                                //MessageBox.Show(res.Text);
+                                result = res.Text;
+                            }
+                        }
+                    }
+                    if (ishave == 1)//解码成功
+                    {
+                        //tup = new Tuple<bool, string>(true, result);
+                        return tup = new Tuple<bool, string>(true, result);
+                    }
+                    else
+                    {
+                        return tup = new Tuple<bool, string>(false, result);
+                    }
+                }
+            }
+            return tup = new Tuple<bool, string>(false, "获取屏幕失败！");
         }
     }
 }

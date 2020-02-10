@@ -37,6 +37,7 @@
             this.btn_decodingqrcode = new System.Windows.Forms.Button();
             this.btn_scanscreenqrcode = new System.Windows.Forms.Button();
             this.picturebox_qrcode = new System.Windows.Forms.PictureBox();
+            this.btn_openqrcodeurl = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picturebox_qrcode)).BeginInit();
             this.SuspendLayout();
             // 
@@ -55,13 +56,15 @@
             this.txtbox_text.Name = "txtbox_text";
             this.txtbox_text.Size = new System.Drawing.Size(337, 21);
             this.txtbox_text.TabIndex = 1;
+            this.txtbox_text.MouseClick += new System.Windows.Forms.MouseEventHandler(this.txtbox_text_MouseClick);
             // 
             // txtbox_qrcodeurl
             // 
             this.txtbox_qrcodeurl.Location = new System.Drawing.Point(95, 39);
             this.txtbox_qrcodeurl.Name = "txtbox_qrcodeurl";
-            this.txtbox_qrcodeurl.Size = new System.Drawing.Size(337, 21);
+            this.txtbox_qrcodeurl.Size = new System.Drawing.Size(256, 21);
             this.txtbox_qrcodeurl.TabIndex = 3;
+            this.txtbox_qrcodeurl.TextChanged += new System.EventHandler(this.txtbox_qrcodeurl_TextChanged);
             // 
             // lab__qrcodeurl
             // 
@@ -100,6 +103,7 @@
             this.btn_decodingqrcode.TabIndex = 6;
             this.btn_decodingqrcode.Text = "解码";
             this.btn_decodingqrcode.UseVisualStyleBackColor = true;
+            this.btn_decodingqrcode.Click += new System.EventHandler(this.btn_decodingqrcode_Click);
             // 
             // btn_scanscreenqrcode
             // 
@@ -109,6 +113,7 @@
             this.btn_scanscreenqrcode.TabIndex = 7;
             this.btn_scanscreenqrcode.Text = "扫描屏幕二维码";
             this.btn_scanscreenqrcode.UseVisualStyleBackColor = true;
+            this.btn_scanscreenqrcode.Click += new System.EventHandler(this.btn_scanscreenqrcode_Click);
             // 
             // picturebox_qrcode
             // 
@@ -118,12 +123,24 @@
             this.picturebox_qrcode.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picturebox_qrcode.TabIndex = 8;
             this.picturebox_qrcode.TabStop = false;
+            this.picturebox_qrcode.Click += new System.EventHandler(this.picturebox_qrcode_Click);
+            // 
+            // btn_openqrcodeurl
+            // 
+            this.btn_openqrcodeurl.Location = new System.Drawing.Point(357, 39);
+            this.btn_openqrcodeurl.Name = "btn_openqrcodeurl";
+            this.btn_openqrcodeurl.Size = new System.Drawing.Size(75, 21);
+            this.btn_openqrcodeurl.TabIndex = 9;
+            this.btn_openqrcodeurl.Text = "打开";
+            this.btn_openqrcodeurl.UseVisualStyleBackColor = true;
+            this.btn_openqrcodeurl.Click += new System.EventHandler(this.btn_openqrcodeurl_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(444, 284);
+            this.Controls.Add(this.btn_openqrcodeurl);
             this.Controls.Add(this.picturebox_qrcode);
             this.Controls.Add(this.btn_scanscreenqrcode);
             this.Controls.Add(this.btn_decodingqrcode);
@@ -154,6 +171,7 @@
         private System.Windows.Forms.Button btn_decodingqrcode;
         private System.Windows.Forms.Button btn_scanscreenqrcode;
         private System.Windows.Forms.PictureBox picturebox_qrcode;
+        private System.Windows.Forms.Button btn_openqrcodeurl;
     }
 }
 
