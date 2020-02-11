@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.lab_text = new System.Windows.Forms.Label();
             this.txtbox_text = new System.Windows.Forms.TextBox();
             this.txtbox_qrcodeurl = new System.Windows.Forms.TextBox();
@@ -38,7 +40,14 @@
             this.btn_scanscreenqrcode = new System.Windows.Forms.Button();
             this.picturebox_qrcode = new System.Windows.Forms.PictureBox();
             this.btn_openqrcodeurl = new System.Windows.Forms.Button();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.显示主界面ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.扫描屏幕二维码ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             ((System.ComponentModel.ISupportInitialize)(this.picturebox_qrcode)).BeginInit();
+            this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // lab_text
@@ -135,6 +144,50 @@
             this.btn_openqrcodeurl.UseVisualStyleBackColor = true;
             this.btn_openqrcodeurl.Click += new System.EventHandler(this.btn_openqrcodeurl_Click);
             // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.ContextMenuStrip = this.contextMenuStrip1;
+            this.notifyIcon1.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon1.Icon")));
+            this.notifyIcon1.Text = "扫码/解码";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.DoubleClick += new System.EventHandler(this.notifyIcon1_DoubleClick);
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.显示主界面ToolStripMenuItem,
+            this.扫描屏幕二维码ToolStripMenuItem,
+            this.toolStripMenuItem1,
+            this.退出ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 98);
+            // 
+            // 显示主界面ToolStripMenuItem
+            // 
+            this.显示主界面ToolStripMenuItem.Name = "显示主界面ToolStripMenuItem";
+            this.显示主界面ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.显示主界面ToolStripMenuItem.Text = "显示主界面";
+            this.显示主界面ToolStripMenuItem.Click += new System.EventHandler(this.显示主界面ToolStripMenuItem_Click);
+            // 
+            // 扫描屏幕二维码ToolStripMenuItem
+            // 
+            this.扫描屏幕二维码ToolStripMenuItem.Name = "扫描屏幕二维码ToolStripMenuItem";
+            this.扫描屏幕二维码ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.扫描屏幕二维码ToolStripMenuItem.Text = "扫描屏幕二维码";
+            this.扫描屏幕二维码ToolStripMenuItem.Click += new System.EventHandler(this.扫描屏幕二维码ToolStripMenuItem_Click);
+            // 
+            // 退出ToolStripMenuItem
+            // 
+            this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.退出ToolStripMenuItem.Text = "退出";
+            this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -150,11 +203,14 @@
             this.Controls.Add(this.lab__qrcodeurl);
             this.Controls.Add(this.txtbox_text);
             this.Controls.Add(this.lab_text);
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form1";
+            this.Text = "扫码/解码";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             ((System.ComponentModel.ISupportInitialize)(this.picturebox_qrcode)).EndInit();
+            this.contextMenuStrip1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -172,6 +228,12 @@
         private System.Windows.Forms.Button btn_scanscreenqrcode;
         private System.Windows.Forms.PictureBox picturebox_qrcode;
         private System.Windows.Forms.Button btn_openqrcodeurl;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem 扫描屏幕二维码ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 退出ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 显示主界面ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
     }
 }
 

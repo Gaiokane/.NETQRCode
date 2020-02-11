@@ -13,12 +13,6 @@ namespace DOTNETQRCode
 {
     public partial class Form1 : Form
     {
-        [DllImport("user32.dll", EntryPoint = "FindWindow", CharSet = CharSet.Auto)]
-        private extern static IntPtr FindWindow(string lpClassName, string lpWindowName);
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int PostMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
-        public const int WM_CLOSE = 0x10;
-
         public Form1()
         {
             InitializeComponent();
@@ -28,6 +22,12 @@ namespace DOTNETQRCode
         {
             //picturebox_qrcode.SizeMode = StretchImage;
             btn_openqrcodeurl.Enabled = false;
+
+            this.ShowInTaskbar = false;
+            this.WindowState = FormWindowState.Minimized;
+
+            //弹气泡/通知框提示
+            this.notifyIcon1.ShowBalloonTip(20, "最小化", "可右键任务栏图标进行快捷操作", ToolTipIcon.Info);
         }
 
         private void btn_generateqrcode_Click(object sender, EventArgs e)
@@ -39,7 +39,9 @@ namespace DOTNETQRCode
             }
             else
             {
+                //picturebox_qrcode.Image = ZxingCode.GenerateBarcode(txtbox_text.Text, 300, 300);
                 picturebox_qrcode.Image = ZxingCode.GenerateQRCode(txtbox_text.Text, 300, 300);
+                //picturebox_qrcode.Image = ZxingCode.GenerateQRCodeWithLOGO(txtbox_text.Text, 300, 300);
             }
         }
 
@@ -159,28 +161,8 @@ namespace DOTNETQRCode
 
         private void btn_scanscreenqrcode_Click(object sender, EventArgs e)
         {
-            if (picturebox_qrcode.Image!=null)
-            {
-                Reset();
-                MessageBox.Show("请再次点击扫描屏幕二维码按钮！");
-            }
-            else
-            {
-                Tuple<bool, string> tup = ZxingCode.ScanScreenQRCode();
-                if (tup.Item1 == true)
-                {
-                    txtbox_text.Text = tup.Item2;
-                    picturebox_qrcode.Image = ZxingCode.GenerateQRCode(tup.Item2, 300, 300);
-                }
-                else
-                {
-                    MessageBox.Show(tup.Item2);
-                }
-            }
+            Reset();
 
-            /*Reset();
-            MessageBox.Show("请再次点击扫描屏幕二维码按钮！", "MessageBox");
-            KillMessageBox();
             Tuple<bool, string> tup = ZxingCode.ScanScreenQRCode();
             if (tup.Item1 == true)
             {
@@ -190,33 +172,94 @@ namespace DOTNETQRCode
             else
             {
                 MessageBox.Show(tup.Item2);
-            }*/
-        }
-
-        private void KillMessageBox()
-        {
-            //按照MessageBox的标题，找到MessageBox的窗口 
-            IntPtr ptr = FindWindow(null, "MessageBox");
-            if (ptr != IntPtr.Zero)
-            {
-                //找到则关闭MessageBox窗口 
-                PostMessage(ptr, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
             }
         }
 
         void Reset()
         {
             txtbox_text.Text = "";
+            txtbox_text.Refresh();
             txtbox_qrcodeurl.Text = "";
+            txtbox_qrcodeurl.Refresh();
             picturebox_qrcode.Image = null;
-            txtbox_text.Focus();
-            txtbox_qrcodeurl.Focus();
+            //强制刷新，不然要等调用该方法那块都执行完了才会刷新，MessageBox.Show()也有效
+            picturebox_qrcode.Refresh();
             txtbox_text.Focus();
         }
 
         private void picturebox_qrcode_Click(object sender, EventArgs e)
         {
             Reset();
+        }
+
+        private void 显示主界面ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            /*if (this.Visible)
+            {
+                this.Hide();
+            }
+            else
+            {
+                this.Show();
+                this.WindowState = System.Windows.Forms.FormWindowState.Normal;
+            }*/
+            this.Show();
+            this.WindowState = System.Windows.Forms.FormWindowState.Normal;
+        }
+
+        private void 扫描屏幕二维码ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Tuple<bool, string> tup = ZxingCode.ScanScreenQRCode();
+            if (tup.Item1 == true)
+            {
+                txtbox_text.Text = tup.Item2;
+                picturebox_qrcode.Image = ZxingCode.GenerateQRCode(tup.Item2, 300, 300);
+                this.Show();
+                this.WindowState = System.Windows.Forms.FormWindowState.Normal;
+            }
+            else
+            {
+                MessageBox.Show(tup.Item2);
+            }
+        }
+
+        private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.ExitThread();
+        }
+
+        private void Form1_SizeChanged(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                this.Hide();
+                this.notifyIcon1.Visible = true;
+            }
+        }
+
+        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
+        {
+            if (this.WindowState == System.Windows.Forms.FormWindowState.Minimized)
+            {
+                this.Show();
+                this.WindowState = System.Windows.Forms.FormWindowState.Normal;
+            }
+        }
+
+        protected override void WndProc(ref Message msg)
+        {
+            const int WM_SYSCOMMAND = 0x0112;
+            const int SC_CLOSE = 0xF060;
+
+            if (msg.Msg == WM_SYSCOMMAND && ((int)msg.WParam == SC_CLOSE))
+            {
+                // 点击winform右上关闭按钮 
+                // 加入想要的逻辑处理
+                this.WindowState = System.Windows.Forms.FormWindowState.Minimized;
+                this.Hide();
+                return;//阻止了窗体关闭
+            }
+            base.WndProc(ref msg);
         }
     }
 }

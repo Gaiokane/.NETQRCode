@@ -74,7 +74,7 @@ namespace DOTNETQRCode
         public static Bitmap GenerateQRCodeWithLOGO(string text, int width, int height)
         {
             //Logo 图片
-            string logoPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\img\logo.png";
+            string logoPath = System.AppDomain.CurrentDomain.BaseDirectory + @"\pcG.png";
             Bitmap logo = new Bitmap(logoPath);
             //构造二维码写码器
             MultiFormatWriter writer = new MultiFormatWriter();
@@ -104,7 +104,7 @@ namespace DOTNETQRCode
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
                 g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighQuality;
                 g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
-                g.DrawImage(map, 0, 0, width, height);
+                g.DrawImage(map, 0, 0);
                 //白底将二维码插入图片
                 g.FillRectangle(Brushes.White, middleL, middleT, middleW, middleH);
                 g.DrawImage(logo, middleL, middleT, middleW, middleH);
