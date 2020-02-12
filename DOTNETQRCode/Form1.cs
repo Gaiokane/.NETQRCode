@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -28,6 +29,16 @@ namespace DOTNETQRCode
 
             //弹气泡/通知框提示
             this.notifyIcon1.ShowBalloonTip(20, "最小化", "可右键任务栏图标进行快捷操作", ToolTipIcon.Info);
+
+            //MessageBox.Show(IsAutoRun().ToString());
+            if (IsAutoRun() == true)
+            {
+                开机自启动ToolStripMenuItem.Checked = true;
+            }
+            else
+            {
+                开机自启动ToolStripMenuItem.Checked = false;
+            }
         }
 
         private void btn_generateqrcode_Click(object sender, EventArgs e)
@@ -260,6 +271,93 @@ namespace DOTNETQRCode
                 return;//阻止了窗体关闭
             }
             base.WndProc(ref msg);
+        }
+
+        /// <summary>
+        /// 修改程序在注册表中的键值
+        /// </summary>
+        /// <param name="isAuto">true:开机启动,false:不开机自启</param>
+        /// 该程序的启动项设置到HKEY_Current_User 下，推荐。如果想改在HKEY_LOCAL_MACHINE，只需将CurrentUser改为LocalMachine
+        /// Rkey = Microsoft.Win32.Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run");
+        public static bool AutoStart(bool isAuto)
+        {
+            try
+            {
+                if (isAuto == true)
+                {
+                    //RegistryKey R_local = Registry.LocalMachine;
+                    RegistryKey R_local = Registry.CurrentUser;
+                    RegistryKey R_run = R_local.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                    R_run.SetValue("QRCodeWidget", Application.ExecutablePath);
+                    R_run.Close();
+                    R_local.Close();
+                    return true;
+                }
+                else
+                {
+                    //RegistryKey R_local = Registry.LocalMachine;
+                    RegistryKey R_local = Registry.CurrentUser;
+                    RegistryKey R_run = R_local.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                    R_run.DeleteValue("QRCodeWidget", false);
+                    R_run.Close();
+                    R_local.Close();
+                    return true;
+                }
+
+                //GlobalVariant.Instance.UserConfig.AutoStart = isAuto;
+            }
+            catch (Exception)
+            {
+                //MessageBoxDlg dlg = new MessageBoxDlg();
+                //dlg.InitialData("您需要管理员权限修改", "提示", MessageBoxButtons.OK, MessageBoxDlgIcon.Error);
+                //dlg.ShowDialog();
+                MessageBox.Show("您需要管理员权限修改", "提示");
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 判断是否开机启动
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsAutoRun()
+        {
+            try
+            {
+                RegistryKey R_local = Registry.CurrentUser;
+                RegistryKey software = R_local.OpenSubKey(@"SOFTWARE");
+                RegistryKey run = R_local.OpenSubKey(@"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\");
+                object key = run.GetValue("QRCodeWidget");
+                software.Close();
+                run.Close();
+                if (null == key || !Application.ExecutablePath.Equals(key.ToString()))
+                {
+                    return false;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        private void 开机自启动ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (开机自启动ToolStripMenuItem.Checked == false)
+            {
+                if (AutoStart(true) == true)
+                {
+                    开机自启动ToolStripMenuItem.Checked = true;
+                }
+            }
+            else
+            {
+                if (AutoStart(false) == true)
+                {
+                    开机自启动ToolStripMenuItem.Checked = false;
+                }
+            }
         }
     }
 }
