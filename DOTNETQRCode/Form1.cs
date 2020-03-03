@@ -216,6 +216,11 @@ namespace DOTNETQRCode
             }*/
             this.Show();
             this.WindowState = System.Windows.Forms.FormWindowState.Normal;
+
+            this.ShowInTaskbar = true;
+
+            this.TopMost = true;//置顶显示
+            this.TopMost = false;//取消置顶显示，不然一直会置顶
         }
 
         private void 扫描屏幕二维码ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -245,6 +250,8 @@ namespace DOTNETQRCode
             {
                 this.Hide();
                 this.notifyIcon1.Visible = true;
+
+                this.ShowInTaskbar = false;
             }
         }
 
@@ -254,6 +261,13 @@ namespace DOTNETQRCode
             {
                 this.Show();
                 this.WindowState = System.Windows.Forms.FormWindowState.Normal;
+
+                this.ShowInTaskbar = true;
+            }
+            else
+            {
+                this.TopMost = true;//置顶显示
+                this.TopMost = false;//取消置顶显示，不然一直会置顶
             }
         }
 

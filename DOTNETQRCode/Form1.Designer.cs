@@ -164,43 +164,43 @@
             this.toolStripMenuItem1,
             this.退出ToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 126);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(161, 104);
             // 
             // 显示主界面ToolStripMenuItem
             // 
             this.显示主界面ToolStripMenuItem.Name = "显示主界面ToolStripMenuItem";
-            this.显示主界面ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.显示主界面ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.显示主界面ToolStripMenuItem.Text = "显示主界面";
             this.显示主界面ToolStripMenuItem.Click += new System.EventHandler(this.显示主界面ToolStripMenuItem_Click);
             // 
             // 扫描屏幕二维码ToolStripMenuItem
             // 
             this.扫描屏幕二维码ToolStripMenuItem.Name = "扫描屏幕二维码ToolStripMenuItem";
-            this.扫描屏幕二维码ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.扫描屏幕二维码ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.扫描屏幕二维码ToolStripMenuItem.Text = "扫描屏幕二维码";
             this.扫描屏幕二维码ToolStripMenuItem.Click += new System.EventHandler(this.扫描屏幕二维码ToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(157, 6);
             // 
             // 开机自启动ToolStripMenuItem
             // 
             this.开机自启动ToolStripMenuItem.Name = "开机自启动ToolStripMenuItem";
-            this.开机自启动ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.开机自启动ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.开机自启动ToolStripMenuItem.Text = "开机自启动";
             this.开机自启动ToolStripMenuItem.Click += new System.EventHandler(this.开机自启动ToolStripMenuItem_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(177, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(157, 6);
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.退出ToolStripMenuItem.Text = "退出";
             this.退出ToolStripMenuItem.Click += new System.EventHandler(this.退出ToolStripMenuItem_Click);
             // 
@@ -219,6 +219,7 @@
             this.Controls.Add(this.lab__qrcodeurl);
             this.Controls.Add(this.txtbox_text);
             this.Controls.Add(this.lab_text);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
